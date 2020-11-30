@@ -12,6 +12,8 @@ shape_predictor = dlib.shape_predictor(PREDICTOR_PATH)
 model = dlib.face_recognition_model_v1(MODEL_PATH)
 db_faces = dict()
 
+THRESHOLD = 0.6
+
 def get_euclidean_distance(source: np.ndarray, new: np.ndarray):
     distance = np.sqrt(np.sum((source - new) ** 2))
     return distance
@@ -33,7 +35,7 @@ def save_faces(path: str):
 
 def add_face(name: str, descriptor: np.ndarray):
     global db_faces
-    if name and descriptor:
+    if name and descriptor is not None:
         db_faces[name] = descriptor
 
 def remove_face(name: str):
@@ -57,7 +59,7 @@ def recognize(frame: np.ndarray):
         for name in db_faces:
             verified_face = db_faces[name]
             distance = get_euclidean_distance(verified_face, face_descriptor)
-            if distance <= 0.5:
+            if distance <= THRESHOLD:
                 label = name
                 color = (229, 160, 21)
                 break
