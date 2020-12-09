@@ -12,7 +12,7 @@ shape_predictor = dlib.shape_predictor(PREDICTOR_PATH)
 model = dlib.face_recognition_model_v1(MODEL_PATH)
 db_faces = dict()
 
-THRESHOLD = 0.6
+THRESHOLD = 0.55
 
 def get_euclidean_distance(source: np.ndarray, new: np.ndarray):
     distance = np.sqrt(np.sum((source - new) ** 2))
